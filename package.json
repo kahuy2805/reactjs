@@ -1,0 +1,22 @@
+{
+  "name": "pratice",
+  "version": "1.0.0",
+  "description": "learning react",
+  "main": "index.js",
+  "scripts": {
+    "test": "Test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hungpham-pyco/reactjs.git"
+  },
+  "keywords": [
+    "kahuy"
+  ],
+  "author": "kahuy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hungpham-pyco/reactjs/issues"
+  },
+  "homepage": "https://github.com/hungpham-pyco/reactjs#readme"
+}
