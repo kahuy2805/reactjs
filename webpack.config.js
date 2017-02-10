@@ -1,25 +1,57 @@
-const path = require('path');
+var webpack = require('webpack');
 
-module.exports = {
-  entry: './src/index.js',
-  devtool: 'source-map',
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  },
+/*
+ * Default webpack configuration for development
+ */
+var config = {
+  devtool: 'eval-source-map',
+  entry:  __dirname + "/src/index.js",
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: __dirname + "/public",
+    filename: "bundle.js"
   },
   module: {
-    loaders: [
-      {
-        test: /.js$/,
-        exclude: /(node_modules|bower_components)/,
-        loader: 'babel', // 'babel-loader' is also a valid name to reference
-        query: {
-          presets: ['es2015']
-        }
-      }
-    ]
+		// preLoaders: [
+		// 	{
+		// 		test: /\.jsx?$/,
+		// 		loader: "eslint-loader",
+		// 		exclude: /node_modules/
+		// 	}
+		// ],
+    loaders: [{
+      test: /\.jsx?$/,
+      exclude: /node_modules/,
+      loader: 'babel'
+    }]
+  },
+	devServer: {
+		port: 8001,
+    contentBase: "./public",
+    colors: true,
+    historyApiFallback: true,
+    inline: true,
+		hot: true
   }
-};
+}
+
+
+/*
+ * If bundling for production, optimize output
+ * set devtool = false
+ */
+if (process.env.NODE_ENV === 'production') {
+  config.devtool = false;
+  config.plugins = [
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin({comments: false}),
+    new webpack.DefinePlugin({
+      'process.env': {NODE_ENV: JSON.stringify('production')}
+    })
+  ];
+} else {
+	config.plugins = [
+    new webpack.HotModuleReplacementPlugin()
+  ];
+}
+
+module.exports = config;
